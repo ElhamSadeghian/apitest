@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use App\User;
 
@@ -104,10 +105,10 @@ class UsersController extends Controller
 
     //avatar
     if($request->hasfile('avatar')){
-        if (\File::exists(public_path($user->avatar))) {
-          unlink(public_path($user->avatar));
-        }
-        $path = Storage::putFile('avatars', $request->file('avatar'));
+        // if (!empty($request->avatar)) {
+        //   $path = Storage::delete(storage_path($user->avatar));
+        // }
+        $path = $request->file('avatar')->store('avatars');
       }
 
     $user->save();
@@ -124,6 +125,9 @@ class UsersController extends Controller
     $user = User::find($id);
 
     //avatar
+    if (\File::exists(storage_path($user->avatar))) {
+      unlink(storage_path($user->avatar));
+    }
 
     $user->delete();
     return response()->json([
