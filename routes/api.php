@@ -17,6 +17,8 @@ use Illuminate\Http\Request;
 //     return $request->user();
 // });
 
+header('Content-Type: application/json');
+
 Route::get('/main', 'MainController@main');
 Route::get('user/get', 'UsersController@get');
 Route::post('user/regist', 'UsersController@regist');
