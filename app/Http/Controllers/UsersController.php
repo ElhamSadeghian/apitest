@@ -103,14 +103,16 @@ class UsersController extends Controller
       $user->password = $request->password;
     }
 
-    //avatar
-    if($request->hasfile('avatar')){
-        // if (!empty($request->avatar)) {
-        //   $path = Storage::delete(storage_path($user->avatar));
-        // }
-        $path = $request->file('avatar')->store('avatars');
-      }
 
+      // var_dump(storage_path('app'.$user->avatar));die;
+    if($request->hasfile('avatar')){
+      if (file_exists(storage_path('app/'.$user->avatar))) {
+          unlink(storage_path('app/'.$user->avatar));
+      }
+      // var_dump($request->file('avatar')->store('public'));die;
+      $user->avatar = $request->file('avatar')->store('public');
+    }
+      
     $user->save();
     return response()->json([
       'status' => 200,
@@ -125,8 +127,8 @@ class UsersController extends Controller
     $user = User::find($id);
 
     //avatar
-    if (\File::exists(storage_path($user->avatar))) {
-      unlink(storage_path($user->avatar));
+    if (file_exists(storage_path('app/'.$user->avatar))) {
+      unlink(storage_path('app/'.$user->avatar));
     }
 
     $user->delete();
