@@ -18,10 +18,23 @@ use Illuminate\Http\Request;
 // });
 
 header('Content-Type: application/json');
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Headers: Authorization, Content-Type');
+
 
 Route::get('/main', 'MainController@main');
-Route::get('user/get', 'UsersController@get');
-Route::post('user/regist', 'UsersController@regist');
-Route::get('user/edit/{id}', 'UsersController@edit');
-Route::post('user/update/{id}', 'UsersController@update');
-Route::get('user/delete/{id}', 'UsersController@delete');
+Route::get('users', 'UsersController@get');
+Route::get('users/{id}', 'UsersController@getOneUser');
+Route::post('users', 'UsersController@regist');
+Route::put('users/{id}', 'UsersController@update');
+Route::delete('users/{id}', 'UsersController@delete');
+
+Route::post('users/login', 'UsersController@login');
+Route::get('users/login1', 'UsersController@login1')->name('login');
+
+Route::post('users/test', 'UsersController@test');
+Route::get('curl', 'UsersController@curl');
+
+Route::group(['middleware' => 'auth:api'], function(){
+    Route::get('users/details', 'UsersController@details');
+});
