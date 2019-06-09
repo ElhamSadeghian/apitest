@@ -24,6 +24,9 @@ class CreateUsersTable extends Migration
             $table->string('birthDate')->nullable();
             $table->string('gender')->nullable();
             $table->string('zipCode')->nullable();
+            $table->string('os')->nullable();
+            $table->string('os_version')->nullable();
+            $table->string('api_token', 60)->unique()->nullable();
             $table->rememberToken();
             // $table->timestamps();
         });
