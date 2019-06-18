@@ -152,6 +152,27 @@ class UsersController extends Controller
     ],200);
   }
 
+  public function download()
+  {
+    $user = Auth::user();
+    // dd(Auth::user());
+    if(Auth::check()){
+      $path = storage_path('app/'. Auth::user()->avatar);
+      if(file_exists($path)){
+        return response()->download($path);
+      }else{
+        return response()->json([
+          'status' => 204,
+          'errors' => 'There is no File'
+        ]);
+      }
+    }else{
+      return response()->json([
+        'error'=>'Unauthorised'
+      ], 401);
+    }
+  }
+
   public function details()
     {
       if(Auth::check()){
