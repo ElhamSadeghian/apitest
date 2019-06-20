@@ -26,7 +26,7 @@ Route::get('/main', 'MainController@main');
 Route::get('users', 'UsersController@get');
 Route::get('users/{id}', 'UsersController@getOneUser');
 Route::post('users', 'UsersController@regist');
-Route::post('users/{id}', 'UsersController@update');
+Route::post('users/{id}/update', 'UsersController@update');
 Route::delete('users/{id}', 'UsersController@delete');
 
 Route::post('users/login', 'UsersController@login');
